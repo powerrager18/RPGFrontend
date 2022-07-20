@@ -13,7 +13,7 @@ function FunUtiliza() {
     });
     const [listaPersonagens, setListaPersonagens] = useState([]);
     const [listaArmas, setListaArmas] = useState([]);
-	
+
 
     const recuperaPersonagem = async () => {
         await fetch(`${process.env.REACT_APP_ENDERECO_API}/personagem`)
@@ -36,9 +36,9 @@ function FunUtiliza() {
             .catch(err => console.log('Erro: ' + err))
     }
 
-    
-    const recuperar = async () => {    
-        await                     fetch(`${process.env.REACT_APP_ENDERECO_API}/utiliza`, {
+
+    const recuperar = async () => {
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/utiliza`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objeto)
@@ -48,7 +48,7 @@ function FunUtiliza() {
             .catch(err => console.log(err))
     }
 
-    const remover = async () => {
+    const remover = async (objeto) => {
         if (window.confirm('Deseja remover este objeto?')) {
             try {
                 await
@@ -68,6 +68,8 @@ function FunUtiliza() {
 
     useEffect(() => {
         recuperaUtiliza();
+        recuperaArma();
+        recuperaPersonagem();
     }, []);
 
 
@@ -79,7 +81,10 @@ function FunUtiliza() {
                 method: metodo,
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(objeto)
-            }).then(response => response.json())
+            }).then(response => {
+                if (response.ok) return response.json()
+                throw Error("Erro ao inserir")
+            })
                 .then(json => {
                     setAlerta({ status: json.status, message: json.message });
                     setObjeto(json.objeto);
@@ -88,8 +93,9 @@ function FunUtiliza() {
                     }
                 });
         } catch (err) {
-            console.error(err.message);
-        }       
+
+            setAlerta({ status: "error", message: err.message });
+        }
         recuperaUtiliza();
     }
 
@@ -97,13 +103,13 @@ function FunUtiliza() {
         const name = e.target.name;
         const value = e.target.value;
         setObjeto({ ...objeto, [name]: value });
-    }	    
+    }
 
     return (
         <UtilizaContext.Provider value={
             {
                 alerta, setAlerta,
-                listaObjetos, setListaObjetos,               
+                listaObjetos, setListaObjetos,
                 recuperaPersonagem,
                 remover,
                 objeto, setObjeto,

@@ -6,7 +6,7 @@ import UtilizaContext from './UtilizaContext';
 
 function Form() {
 
-    const { objeto, handleChange, acaoCadastrar, alerta } = useContext(UtilizaContext);
+    const { objeto, handleChange, acaoCadastrar, alerta, listaPersonagens, listaArmas } = useContext(UtilizaContext);
 
     (function () {
         'use strict'
@@ -39,33 +39,51 @@ function Form() {
                         <div className="modal-body">
                             <Alerta alerta={alerta} />
                             <div className="form-group">
-                                <label htmlFor="txtCodigo" className="form-label">
-                                    Codigo do personagem
+                            <label htmlFor="selectPersonagem" className="form-label">
+                                    Personagem
                                 </label>
-                                <input
-                                    type="text"
+                            <select
                                     className="form-control"
-                                    id="txtCodigo"
+                                    id="selectPersonagem"
                                     name="cod_personagem"
                                     value={objeto.cod_personagem}
                                     onChange={handleChange}
-                                />
+                                    required>
+                                    <option disable="true" value="">
+                                        (Selecione o personagem)
+                                    </option>
+                                    {listaPersonagens.map((personagem) => (
+                                        <option key={personagem.cod_personagem}
+                                            value={personagem.cod_personagem}>
+                                            {personagem.cod_personagem} - {personagem.nome_personagem}
+                                        </option>
+                                    ))}
+                                </select>
                                 <div class="invalid-feedback">
                                     preenxa esse campo!
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="txtCodigo2" className="form-label">
-                                    Codigo da arma
+                            <label htmlFor="selectArma" className="form-label">
+                                    Arma
                                 </label>
-                                <input
-                                    type="text"
+                            <select
                                     className="form-control"
-                                    id="txtCodigo2"
+                                    id="selectArma"
                                     name="cod_arma"
                                     value={objeto.cod_arma}
                                     onChange={handleChange}
-                                />
+                                    required>
+                                    <option disable="true" value="">
+                                        (Selecione a arma)
+                                    </option>
+                                    {listaArmas.map((armas) => (
+                                        <option key={armas.cod_arma}
+                                            value={armas.cod_arma}>
+                                            {armas.cod_arma} - {armas.nome_arma}
+                                        </option>
+                                    ))}
+                                </select>
                                 <div class="invalid-feedback">
                                     preenxa esse campo!
                                 </div>

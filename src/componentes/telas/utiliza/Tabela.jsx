@@ -10,11 +10,7 @@ function Tabela() {
         <div style={{ padding: '20px' }}>
             <h1>Personagens e suas armas</h1>
             <Alerta alerta={alerta} />
-            {listaObjetos.length === 0 && <h1>Nenhuma relação encontrada</h1>}
-            {listaObjetos.length > 0 && (
-                <table className="table">
-                    <thead>
-                        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdicao"
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdicao"
                             onClick={() => {
                                 setObjeto({
                                     cod_personagem: 0, cod_arma: 0
@@ -24,10 +20,17 @@ function Tabela() {
                             }}>
                             Novo <i className="bi bi-file-earmark-plus"></i>
                         </button>
+            {listaObjetos.length === 0 && <h1>Nenhuma relação encontrada</h1>}
+            {listaObjetos.length > 0 && (
+                <table className="table">
+                    <thead>
                         <tr>
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
                             <th scope="col">Personagem</th>
+                            <th scope="col"> cod Personagem</th>
                             <th scope="col">Arma</th>
+
+                            <th scope="col">cod Arma</th>                            
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +43,9 @@ function Tabela() {
                                     </button>
                                 </td>
                                 <td>{objeto.nome_personagem}</td>
+                                <td>{objeto.cod_personagem}</td>
                                 <td>{objeto.nome_arma}</td>
+                                <td>{objeto.cod_arma}</td>
 
                             </tr>
                         ))}
